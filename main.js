@@ -3,12 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- Scramble Preloader Logic ---
     const preloader = document.getElementById('preloader');
     const scrambleEl = document.querySelector('.scramble-text');
-    
+
     if (preloader && scrambleEl) {
         const targetText = scrambleEl.getAttribute('data-text');
         const secondText = "BAĞÇABAŞI";
         const chars = "-_\\/[]{}—=+*^?#________";
-        
+
         function runScramble(text, onComplete) {
             let frame = 0;
             let queue = [];
@@ -21,11 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     char: ''
                 });
             }
-            
+
             function update() {
                 let output = '';
                 let complete = 0;
-                
+
                 for (let i = 0; i < queue.length; i++) {
                     let { from, to, start, end, char } = queue[i];
                     if (frame >= end) {
@@ -41,9 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         output += `<span class="dull">${from}</span>`;
                     }
                 }
-                
+
                 scrambleEl.innerHTML = output;
-                
+
                 if (complete === queue.length) {
                     if (onComplete) onComplete();
                 } else {
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function type() {
         const currentText = texts[textIndex];
-        
+
         if (isDeleting) {
             typewriterElement.textContent = currentText.substring(0, charIndex - 1);
             charIndex--;
@@ -136,32 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
             spans[2].style.transform = 'none';
         });
     });
-    
-    // --- Scroll Spy for Side Menu ---
-    const sections = document.querySelectorAll('section');
-    const sideLinks = document.querySelectorAll('.side-menu .side-link');
-
-    window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(sec => {
-            const sectionTop = sec.offsetTop;
-            const sectionHeight = sec.clientHeight;
-            // Activate when the section passes 1/3 of the viewport height
-            if (scrollY >= (sectionTop - sectionHeight / 3)) {
-                current = sec.getAttribute('id');
-            }
-        });
-
-        sideLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
-    });
-
-    // Initialize Scroll Spy on load
-    window.dispatchEvent(new Event('scroll'));
 
     // Intersection Observer for fade-in animations
     const observerOptions = {
