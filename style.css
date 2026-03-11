@@ -59,6 +59,13 @@
 html {
     scroll-behavior: smooth;
     background-color: var(--bg-dark);
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+html::-webkit-scrollbar {
+    display: none;
 }
 
 body {
@@ -67,6 +74,13 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     position: relative;
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+body::-webkit-scrollbar {
+    display: none;
 }
 
 /* Typography elements */
@@ -309,7 +323,11 @@ h4 {
 
 /* Sections */
 section {
-    padding: 100px 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 0;
 }
 
 .section-title {
