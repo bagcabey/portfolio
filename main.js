@@ -137,30 +137,54 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Intersection Observer for fade-in animations
-    const observerOptions = {
+    // --- Scroll Spy for Side Menu ---
+    const sideLinks = document.querySelectorAll('.side-menu .side-link');
+    const sections = document.querySelectorAll('section');
+
+    const scrollSpyOptions = {
+        threshold: 0.4, // Section is considered active when 40% is visible
+        rootMargin: "0px"
+    };
+
+    const scrollSpyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                sideLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, scrollSpyOptions);
+
+    sections.forEach(section => {
+        scrollSpyObserver.observe(section);
+    });
+    // --- Intersection Observer for fade-in animations ---
+    const revealObserverOptions = {
         threshold: 0.1,
         rootMargin: "0px 0px -50px 0px"
     };
 
-    const observer = new IntersectionObserver((entries) => {
+    const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
-                observer.unobserve(entry.target);
+                revealObserver.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, revealObserverOptions);
 
-    // Apply animation to elements
     const animateElements = document.querySelectorAll('.timeline-content, .project-row, .skill-group, .contact-box, .contact-item-pure');
     animateElements.forEach((el, index) => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
-        // Add a slight stagger delay for list items
         const delay = index * 0.05;
         el.style.transition = `opacity 0.6s ease-out ${delay}s, transform 0.6s ease-out ${delay}s`;
-        observer.observe(el);
+        revealObserver.observe(el);
     });
 });
